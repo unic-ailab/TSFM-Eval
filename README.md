@@ -10,45 +10,23 @@ Submitted to ADBIS 2026.
 
 ## Overview
 
-TSFM-Eval is a comprehensive benchmark for evaluating zero-shot Time Series Foundation Models (TSFMs) across:
+TSFM-Eval is a comprehensive benchmark for evaluating zero-shot Time Series Foundation Models (TSFMs) with respect to point forecasting accuracy, probabilistic calibration, and computational efficiency.
 
-- point forecasting accuracy,
-- probabilistic calibration,
-- and computational efficiency.
+The benchmark includes statistical baselines, supervised deep learning models, and modern TSFMs evaluated on traffic forecasting, energy load forecasting, and financial time series forecasting tasks.
 
-The benchmark evaluates statistical baselines, supervised deep learning models, and modern TSFMs on datasets spanning:
-
-- traffic forecasting,
-- energy load forecasting,
-- and financial time series forecasting.
-
-The repository provides:
-- benchmarking datasets,
-- evaluation outputs,
-- probabilistic forecast intervals,
-- latency measurements,
-- and reproducibility resources.
+The repository provides benchmarking datasets, probabilistic forecast outputs, latency measurements, evaluation results, and reproducibility resources.
 
 ---
 
 # Benchmark Scope
 
-The released dataset contains:
+The released dataset contains more than **3.6 million forecasting records** across **3 datasets**, **9 forecasting models**, and multiple experimental configurations involving varying context lengths and forecast horizons.
 
+Key characteristics:
 - **3,638,930 forecasting records**
 - **17 columns**
-- **3 datasets**
-- **9 forecasting models**
-- Multiple:
-  - context lengths,
-  - forecast horizons,
-  - and evaluation scenarios
-
-Format:
-- Apache Parquet
-
-Optimized memory footprint:
-- ~195 MB in-memory using optimized dtypes
+- Apache Parquet format
+- Optimized in-memory footprint of approximately **195 MB**
 
 ---
 
@@ -75,33 +53,16 @@ Optimized memory footprint:
 # Datasets
 
 ## EdgeTraffic
-Discrete high-frequency traffic counts collected from a road intersection in Iași, Romania.
 
-Characteristics:
-- highly volatile,
-- integer-valued,
-- periodic,
-- high-frequency traffic observations.
-
----
+Discrete high-frequency traffic counts collected from a road intersection in Iași, Romania. The dataset is highly volatile, integer-valued, and strongly periodic, making it suitable for evaluating high-frequency forecasting robustness.
 
 ## MixGridPL
-Continuous electricity load measurements for the Polish national power grid.
 
-Characteristics:
-- strong seasonality,
-- long-range temporal structure,
-- smooth continuous dynamics.
-
----
+Continuous electricity load measurements from the Polish national power grid. The dataset exhibits strong seasonality, long-range temporal dependencies, and smooth continuous dynamics.
 
 ## SPY
-Daily closing prices of the SPDR S&P 500 ETF.
 
-Characteristics:
-- stochastic,
-- non-stationary,
-- long-term trend with short-term volatility.
+Daily closing prices of the SPDR S&P 500 ETF. The series is stochastic and non-stationary, combining long-term trend structure with short-term volatility.
 
 ---
 
@@ -109,23 +70,11 @@ Characteristics:
 
 ## Fixed Context (FixedC)
 
-A fixed historical context length is used while varying the prediction horizon.
-
-Purpose:
-- evaluate long-range forecasting,
-- latency scaling,
-- and calibration degradation over long horizons.
-
----
+A fixed historical context length is used while varying the forecast horizon. This scenario evaluates long-range forecasting behavior, calibration degradation at increasing horizons, and inference latency scaling.
 
 ## Fixed Horizon (FixedH)
 
-A fixed prediction horizon is used while varying the historical context length.
-
-Purpose:
-- study context sensitivity,
-- identify context saturation points,
-- and evaluate long-context reasoning.
+A fixed prediction horizon is used while varying the historical context length. This setup is designed to study context sensitivity, long-context reasoning, and context saturation effects.
 
 ---
 
@@ -151,18 +100,7 @@ Purpose:
 | `residual (float32)` | Forecast residual (`target_true - p50`) |
 | `absolute_error (float32)` | Absolute point forecast error |
 
-The released dataset additionally includes several derived features for complementary exploratory analysis beyond the metrics presented in the paper:
-
-- `interval_width` for prediction interval sharpness analysis,
-- `residual` for signed forecasting bias diagnostics,
-- `absolute_error` for fine-grained point forecasting error analysis.
-
-These features support:
-- residual diagnostics,
-- calibration-vs-width tradeoff studies,
-- uncertainty sharpness analysis,
-- outlier sensitivity evaluation,
-- and forecasting reliability exploration without requiring additional post-processing.
+In addition to the metrics presented in the paper, the released dataset includes several complementary derived features intended to support downstream exploratory analysis. Specifically, `interval_width` enables prediction interval sharpness analysis, `residual` captures signed forecasting bias, and `absolute_error` facilitates fine-grained point forecasting diagnostics. Together, these additions support calibration-versus-width studies, uncertainty analysis, residual diagnostics, and forecasting reliability evaluation without requiring additional post-processing.
 
 ---
 
@@ -170,38 +108,18 @@ These features support:
 
 ## sMAPE
 
-Symmetric Mean Absolute Percentage Error used for point forecast evaluation.
-
-Properties:
-- scale-independent,
-- symmetric,
-- robust across heterogeneous datasets.
-
----
+Symmetric Mean Absolute Percentage Error (sMAPE) is used for point forecast evaluation. The metric is scale-independent, symmetric, and robust across heterogeneous datasets.
 
 ## ICE
 
-Interval Coverage Error evaluates probabilistic calibration.
-
-For an 80% prediction interval:
-- ideal value: `0`
-- measures deviation between empirical and nominal coverage.
-
-Lower values indicate better calibration.
-
----
+Interval Coverage Error (ICE) evaluates probabilistic calibration by measuring the deviation between empirical and nominal interval coverage. For the benchmark's 80% prediction intervals, the ideal ICE value is `0`, with lower values indicating better calibration.
 
 ## IMAE
 
-Interval Mean Absolute Error measures the magnitude of interval violations.
+Interval Mean Absolute Error (IMAE) measures the magnitude of interval violations. The metric is zero when all observations fall inside the prediction interval and increases proportionally to the severity of violations.
 
-Properties:
-- zero when all observations fall inside the interval,
-- increases proportionally to violation severity.
+While ICE measures how often intervals fail, IMAE measures how severe those failures are.
 
-IMAE complements ICE:
-- ICE measures **how often** intervals fail,
-- IMAE measures **how severe** failures are.
 
 ---
 
@@ -237,43 +155,18 @@ print(df.head())
 
 # Example Analyses
 
-The dataset supports analyses such as:
-
-- forecasting accuracy benchmarking,
-- probabilistic calibration evaluation,
-- sharpness vs calibration trade-offs,
-- context sensitivity analysis,
-- horizon scaling analysis,
-- latency benchmarking,
-- residual diagnostics,
-- uncertainty quantification research,
-- and deployment-oriented TSFM evaluation.
+The benchmark supports a broad range of analyses, including forecasting accuracy benchmarking, probabilistic calibration evaluation, sharpness-versus-calibration tradeoff analysis, context sensitivity studies, horizon scaling experiments, latency benchmarking, residual diagnostics, uncertainty quantification research, and deployment-oriented TSFM evaluation.
 
 ---
 
 # Key Findings
 
-The benchmark reveals several important observations:
-
-- TSFMs consistently outperform traditional statistical baselines.
-- Transformer-based TSFMs achieve extremely low inference latency.
-- TiRex provides the most stable probabilistic calibration.
-- Patch-based transformers suffer calibration degradation at long horizons.
-- Longer context windows improve performance only up to saturation points.
-- Point accuracy alone is insufficient for evaluating forecasting reliability.
+The benchmark reveals several notable observations. TSFMs consistently outperform traditional statistical baselines, while transformer-based TSFMs achieve extremely low inference latency. TiRex demonstrates the most stable probabilistic calibration, whereas patch-based transformers exhibit calibration degradation at long forecast horizons. The experiments also show that increasing context length improves performance only up to dataset-dependent saturation points, highlighting that point accuracy alone is insufficient for evaluating forecasting reliability.
 
 ---
 
 # Reproducibility
 
-The benchmark was implemented using:
+The benchmark was implemented in Python using PyTorch and Hugging Face model implementations.
 
-- Python
-- PyTorch
-- Hugging Face model implementations
-
-All TSFMs were evaluated:
-
-- in zero-shot mode,
-- without fine-tuning,
-- using pretrained default configurations.
+All TSFMs were evaluated in strict zero-shot mode without fine-tuning and using pretrained default configurations.
