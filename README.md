@@ -135,7 +135,9 @@ bool(1), category(3), float32(11), int32(2)
 
 # Getting Started
 
-The TSFM-Eval dataset can be downloaded from Zenodo and loaded directly using the provided Python Jupyter notebooks. The repository includes the benchmark dataset, reproducibility resources as Python dependencies, and also has utilities for exploratory analysis of zero-shot Time Series Foundation Models (TSFMs).
+## Download Dataset
+
+Navigate to the [dataset repository](https://zenodo.org/records/20199744) to retrieve the dataset, and save it in the same location as the `code.ipynb` notebook.
 
 ## Install Dependencies
 
