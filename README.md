@@ -1,6 +1,6 @@
 # TSFM-Eval
 
-Benchmark dataset and evaluation framework accompanying the paper:
+Benchmark dataset and evaluation methodology accompanying the paper:
 
 > **Evaluating Accuracy, Calibration, and Efficiency in Zero-Shot Time Series Foundation Models**
 
@@ -10,9 +10,9 @@ Submitted to ADBIS 2026.
 
 ## Overview
 
-TSFM-Eval is a comprehensive benchmark for evaluating zero-shot Time Series Foundation Models (TSFMs) with respect to point forecasting accuracy, probabilistic calibration, and computational efficiency.
+TSFM-Eval is a comprehensive benchmark study for evaluating zero-shot Time Series Foundation Models (TSFMs) with respect to point forecasting accuracy, probabilistic calibration, and computational efficiency.
 
-The benchmark includes statistical baselines, supervised deep learning models, and modern TSFMs evaluated on traffic forecasting, energy load forecasting, and financial time series forecasting tasks.
+It includes statistical baselines, supervised deep learning models, and modern TSFMs evaluated on traffic forecasting, energy load forecasting, and financial time series forecasting tasks.
 
 The repository provides benchmarking datasets, probabilistic forecast outputs, latency measurements, evaluation results, and reproducibility resources.
 
@@ -98,7 +98,7 @@ A fixed prediction horizon is used while varying the historical context length. 
 | `interval_absolute_error (float32)` | Magnitude of interval violation for IMAE metric |
 | `interval_width (float32)` | Width of prediction interval (`p90 - p10`) |
 | `residual (float32)` | Forecast residual (`target_true - p50`) |
-| `absolute_error (float32)` | Absolute point forecast error |
+| `absolute_error (float32)` | Absolute point forecast error (`abs(target_true - p50)`) |
 
 In addition to the metrics presented in the paper, the released dataset includes several complementary derived features intended to support downstream exploratory analysis. Specifically, `interval_width` enables prediction interval sharpness analysis, `residual` captures signed forecasting bias, and `absolute_error` facilitates fine-grained point forecasting diagnostics. Together, these additions support calibration-versus-width studies, uncertainty analysis, residual diagnostics, and forecasting reliability evaluation without requiring additional post-processing.
 
