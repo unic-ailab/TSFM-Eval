@@ -74,7 +74,7 @@ Interval Mean Absolute Error (IMAE) measures the magnitude of interval violation
 
 While ICE measures how often intervals fail, IMAE measures how severe those failures are.
 
-**Note:** For additional metric definitions and methodological details, please refer to the paper.
+**Note:** For additional metric clarifications and methodological details, please refer to the paper.
 
 # Dataset Schema
 
