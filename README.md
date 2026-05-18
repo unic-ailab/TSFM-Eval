@@ -85,6 +85,8 @@ While ICE measures how often intervals fail, IMAE measures how severe those fail
 | `context_length (int32)` | Historical context window size |
 | `horizon_length (int32)` | Forecast horizon length |
 | `data_scenario (category)` | Experimental scenario (`FixedC`, `FixedH`) |
+| `window_idx (int32)` | Sequential ID of the rolling evaluation window. Groups all step-ahead forecasts generated from a single historical context block |
+| `horizon_idx (int32)` | Absolute index of the target time step in the source dataset. Maps the prediction directly to its corresponding ground-truth value (`target_true`) |
 | `target_true (float32)` | Ground-truth target value |
 | `p50 (float32)` | Median forecast (50th percentile) |
 | `p10 (float32)` | Lower quantile forecast (10th percentile) |
@@ -94,9 +96,9 @@ While ICE measures how often intervals fail, IMAE measures how severe those fail
 | `sape (float32)` | Symmetric Absolute Percentage Error contribution (designated for sMAPE metric) |
 | `interval_violation (bool)` | Boolean indicator for interval violation (designated for ICE metric) |
 | `interval_absolute_error (float32)` | Magnitude of interval violation (designated for IMAE metric) |
-| `interval_width (float32)` | Width of prediction interval (`p90 - p10`) |
-| `residual (float32)` | Forecast residual (`target_true - p50`) |
-| `absolute_error (float32)` | Absolute point forecast error (`abs(target_true - p50)`) |
+| `interval_width (float32)` | Width of prediction interval |
+| `residual (float32)` | Forecast residual |
+| `absolute_error (float32)` | Absolute point forecast error |
 
 In addition to the metrics presented in the paper, the released dataset includes several complementary derived features intended to support downstream exploratory analysis. Specifically:
 
