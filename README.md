@@ -1,46 +1,29 @@
 # TSFM-Eval
 
-Benchmark dataset and evaluation methodology accompanying the paper:
+This repository contains the benchmark dataset `forecast_results.parquet`, generated for the analysis and evaluation presented in our paper:
 
 > **Evaluating Accuracy, Calibration, and Efficiency in Zero-Shot Time Series Foundation Models**
 
-Submitted to ADBIS 2026.
+submitted to ADBIS 2026.
 
----
+The repository also includes the Jupyter notebook (`jupyter_code.ipynb`) used to reproduce the plots and aggregation analyses presented in the paper. Additionally, aggregation tables can be derived directly from the released dataset to validate the findings reported in the paper or support further exploratory analysis.
 
-## Overview
-
-TSFM-Eval is a comprehensive benchmark study for evaluating zero-shot Time Series Foundation Models (TSFMs) with respect to point forecasting accuracy, probabilistic calibration, and computational efficiency.
-
-It includes statistical baselines, supervised deep learning models, and modern TSFMs evaluated on traffic forecasting, energy load forecasting, and financial time series forecasting tasks.
-
-The repository provides benchmarking datasets, probabilistic forecast outputs, latency measurements, evaluation results, and reproducibility resources.
-
----
-
-# Benchmark Scope
-
-The released dataset contains more than **3.6 million forecasting records** across **3 datasets**, **9 forecasting models**, and multiple experimental configurations involving varying context lengths and forecast horizons.
-
-Key characteristics:
-- **3,638,930 forecasting records**
-- **17 columns**
-- Apache Parquet format
-- Optimized in-memory footprint of approximately **195 MB**
-
----
+Below you will find the experimental characteristics, evaluation setup, and dataset schema.
 
 # Evaluated Models
 
 ## Statistical Baselines
+
 - ARIMA
 - Running Average (RA)
 - Random Walk with Drift (RWD)
 
 ## Supervised Deep Learning
+
 - PatchTST
 
 ## Time Series Foundation Models (TSFMs)
+
 - Chronos-2
 - TiRex
 - Moirai-2.0
@@ -48,7 +31,6 @@ Key characteristics:
 - TimesFM
 - Toto
 
----
 
 # Evaluation Datasets
 
@@ -62,9 +44,8 @@ Continuous electricity load measurements from the Polish national power grid. Th
 
 ## SPY
 
-Daily closing prices of the SPDR S&P 500 ETF. The series is stochastic and non-stationary, combining long-term trend structure with short-term volatility.
+Daily closing prices of the SPDR S&P 500 ETF. The series is stochastic and non-stationary, exhibiting long-term trends and short-term volatility.
 
----
 
 # Experimental Scenarios
 
@@ -76,7 +57,24 @@ A fixed historical context length is used while varying the forecast horizon. Th
 
 A fixed prediction horizon is used while varying the historical context length. This setup is designed to study context sensitivity, long-context reasoning, and context saturation effects.
 
----
+
+# Evaluation Metrics
+
+## sMAPE
+
+Symmetric Mean Absolute Percentage Error (sMAPE) is used for point forecast evaluation. The metric is scale-independent, symmetric, and robust across heterogeneous datasets.
+
+## ICE
+
+Interval Coverage Error (ICE) evaluates probabilistic calibration by measuring the deviation between empirical and nominal interval coverage. For the benchmark's 80% prediction intervals, the ideal ICE value is 0, with lower values indicating better calibration.
+
+## IMAE
+
+Interval Mean Absolute Error (IMAE) measures the magnitude of interval violations. The metric is zero when all observations fall inside the prediction interval and increases proportionally to the severity of violations.
+
+While ICE measures how often intervals fail, IMAE measures how severe those failures are.
+
+**Note:** For additional metric definitions and methodological details, please refer to the paper.
 
 # Dataset Schema
 
@@ -93,84 +91,37 @@ A fixed prediction horizon is used while varying the historical context length. 
 | `p90 (float32)` | Upper quantile forecast (90th percentile) |
 | `fit_wall_time (float32)` | Model fitting/training wall-clock time (seconds) |
 | `predict_wall_time (float32)` | Inference wall-clock time (seconds) |
-| `sape (float32)` | Symmetric Absolute Percentage Error contribution |
-| `interval_violation (bool)` | Boolean indicator for interval violation for ICE metric |
-| `interval_absolute_error (float32)` | Magnitude of interval violation for IMAE metric |
+| `sape (float32)` | Symmetric Absolute Percentage Error contribution (designated for sMAPE metric) |
+| `interval_violation (bool)` | Boolean indicator for interval violation (designated for ICE metric) |
+| `interval_absolute_error (float32)` | Magnitude of interval violation (designated for IMAE metric) |
 | `interval_width (float32)` | Width of prediction interval (`p90 - p10`) |
 | `residual (float32)` | Forecast residual (`target_true - p50`) |
 | `absolute_error (float32)` | Absolute point forecast error (`abs(target_true - p50)`) |
 
-In addition to the metrics presented in the paper, the released dataset includes several complementary derived features intended to support downstream exploratory analysis. Specifically, `interval_width` enables prediction interval sharpness analysis, `residual` captures signed forecasting bias, and `absolute_error` facilitates fine-grained point forecasting diagnostics. Together, these additions support calibration-versus-width studies, uncertainty analysis, residual diagnostics, and forecasting reliability evaluation without requiring additional post-processing.
+In addition to the metrics presented in the paper, the released dataset includes several complementary derived features intended to support downstream exploratory analysis. Specifically:
 
----
+- `interval_width` enables prediction interval sharpness analysis
+- `residual` captures signed forecasting bias
+- `absolute_error` facilitates fine-grained point forecasting diagnostics
 
-# Evaluation Metrics
+# Code Execution Instructions
 
-## sMAPE
-
-Symmetric Mean Absolute Percentage Error (sMAPE) is used for point forecast evaluation. The metric is scale-independent, symmetric, and robust across heterogeneous datasets.
-
-## ICE
-
-Interval Coverage Error (ICE) evaluates probabilistic calibration by measuring the deviation between empirical and nominal interval coverage. For the benchmark's 80% prediction intervals, the ideal ICE value is `0`, with lower values indicating better calibration.
-
-## IMAE
-
-Interval Mean Absolute Error (IMAE) measures the magnitude of interval violations. The metric is zero when all observations fall inside the prediction interval and increases proportionally to the severity of violations.
-
-While ICE measures how often intervals fail, IMAE measures how severe those failures are.
-
-
----
-
-# Data Types
-
-Optimized schema:
-
-```text
-bool(1), category(3), float32(11), int32(2)
-```
-
----
-
-# Getting Started
-
-## Download Dataset
-
-Navigate to the [dataset repository](https://zenodo.org/records/20199744) to retrieve the dataset, and save it in the same location as the `code.ipynb` notebook.
-
-## Install Dependencies
+## Clone the repository
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/unic-ailab/TSFM-Eval.git
 ```
 
-## Read Dataset
+## Open the `jupyter_code.ipynb` notebook file
 
-```python
-import pandas as pd
-
-df = pd.read_parquet("tsfm_eval.parquet")
-
-print(df.head())
+```bash
+jupyter notebook jupyter_code.ipynb
 ```
 
----
+## Reproduce Plots
 
-# Example Analyses
+To reproduce the plots, please execute the notebook cells in order, from top to bottom.
 
-The benchmark supports a broad range of analyses, including forecasting accuracy benchmarking, probabilistic calibration evaluation, sharpness-versus-calibration tradeoff analysis, context sensitivity studies, horizon scaling experiments, latency benchmarking, residual diagnostics, uncertainty quantification research, and deployment-oriented TSFM evaluation.
+# License
 
----
-
-# Key Findings
-
-The benchmark reveals several notable observations. TSFMs consistently outperform traditional statistical baselines, while transformer-based TSFMs achieve extremely low inference latency. TiRex demonstrates the most stable probabilistic calibration, whereas patch-based transformers exhibit calibration degradation at long forecast horizons. The experiments also show that increasing context length improves performance only up to dataset-dependent saturation points, highlighting that point accuracy alone is insufficient for evaluating forecasting reliability.
-
----
-
-# Reproducibility
-
-The benchmark was implemented in Python using PyTorch and Hugging Face model implementations.
-
-All TSFMs were evaluated in strict zero-shot mode without fine-tuning and using pretrained default configurations.
+This repository is released under the Apache License 2.0.
