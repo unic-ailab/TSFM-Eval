@@ -40,7 +40,7 @@ Discrete high-frequency traffic counts collected from a road intersection in Ia»
 
 ## MixGridPL
 
-Continuous electricity load measurements from the Polish national power grid. The dataset exhibits strong seasonality, long-range temporal dependencies, and smooth continuous dynamics.
+Continuous electricity load measurements from the Polish national power grid. Utilized in [GreenAnalyzer-Project](https://github.com/UCY-LINC-LAB/GreenAnalyzer-Project). The dataset exhibits strong seasonality, long-range temporal dependencies, and smooth continuous dynamics.
 
 ## SPY
 
