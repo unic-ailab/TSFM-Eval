@@ -114,6 +114,12 @@ In addition to the metrics presented in the paper, the released dataset includes
 git clone https://github.com/unic-ailab/TSFM-Eval.git
 ```
 
+## Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Open the `jupyter_code.ipynb` notebook file
 
 ```bash
