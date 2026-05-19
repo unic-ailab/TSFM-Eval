@@ -8,7 +8,7 @@ submitted to ADBIS 2026.
 
 The repository also includes the Jupyter notebook (`jupyter_code.ipynb`) used to reproduce the plots and aggregation analyses presented in the paper. Additionally, aggregation tables and additional analyses can be derived directly from the released dataset to validate the findings reported in the paper or support further exploratory analysis.
 
-Below you will find the experimental characteristics, evaluation setup, and dataset schema.
+Below you will find the benchmark characteristics, evaluation setup, and dataset schema.
 
 # Evaluated Models
 
@@ -40,7 +40,7 @@ Discrete high-frequency traffic counts collected from a road intersection in Ia»
 
 ## MixGridPL
 
-Continuous electricity load measurements from the Polish national power grid. Utilized in [GreenAnalyzer-Project](https://github.com/UCY-LINC-LAB/GreenAnalyzer-Project). The dataset exhibits strong seasonality, long-range temporal dependencies, and smooth continuous dynamics.
+Continuous electricity load measurements from the Polish national power grid, also utilized in the [GreenAnalyzer-Project](https://github.com/UCY-LINC-LAB/GreenAnalyzer-Project). The dataset exhibits strong seasonality, long-range temporal dependencies, and smooth continuous dynamics.
 
 ## SPY
 
