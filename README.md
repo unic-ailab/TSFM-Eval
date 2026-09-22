@@ -4,7 +4,7 @@ This repository contains the benchmark dataset `forecast_results.parquet`, gener
 
 > **Evaluating Accuracy, Calibration, and Efficiency in Zero-Shot Time Series Foundation Models**
 
-submitted to ADBIS 2026.
+accepted by Advances in Databases and Information Systems (ADBIS) 2026. To cite the paper you can use the [`adbis2026_paper.bib`] file from this repository.
 
 The repository also includes the Jupyter notebook (`jupyter_code.ipynb`) used to reproduce the plots and aggregation analyses presented in the paper. Additionally, aggregation tables and additional analyses can be derived directly from the released dataset to validate the findings reported in the paper or support further exploratory analysis.
 
